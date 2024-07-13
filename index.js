@@ -31,7 +31,7 @@ const options = {
 		},
 		servers: [
 			{
-				url: "http://localhost:3005",
+				url: process.env.BACKEND_URL,
 				description: "Development server",
 			},
 		],
