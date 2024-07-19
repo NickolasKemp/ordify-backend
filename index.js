@@ -31,6 +31,10 @@ const options = {
 		},
 		servers: [
 			{
+				url: "https://ordify-backend.vercel.app/",
+				description: "Production server",
+			},
+			{
 				url: process.env.BACKEND_URL,
 				description: "Development server",
 			},
