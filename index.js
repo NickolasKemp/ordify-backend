@@ -5,8 +5,8 @@ const cookieParser = require("cookie-parser");
 const router = require("./routes/router");
 const errorMiddleware = require("./middlewares/error.middleware");
 const mongoose = require("mongoose");
-(swaggerJsdoc = require("swagger-jsdoc")),
-	(swaggerUi = require("swagger-ui-express"));
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 dotenv.config();
 
