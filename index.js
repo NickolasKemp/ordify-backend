@@ -40,8 +40,15 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
+const CSS_URL =
+	"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
-app.use("/", router, swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+	"/",
+	router,
+	swaggerUi.serve,
+	swaggerUi.setup(specs, { customCss: CSS_URL }),
+);
 app.use(errorMiddleware);
 
 const start = async () => {
