@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Product = require("../models/product.model");
 const Customer = require("../models/customer.model");
 const Order = require("../models/order.model");
+const dotenv = require("dotenv");
+dotenv.config({ path: "../.env" });
 
 const sampleProducts = [
 	{
@@ -78,7 +80,7 @@ const sampleProducts = [
 
 const seedDB = async () => {
 	try {
-		await mongoose.connect("mongodb://user:pass@localhost:27017/", {
+		await mongoose.connect(process.env.DB_URL, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
