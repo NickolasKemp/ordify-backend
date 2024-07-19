@@ -17,7 +17,7 @@ app.use(cookieParser());
 const whitelist = [process.env.FRONTEND_URL, "https://ordify-eta.vercel.app"];
 const corsOptions = {
 	credentials: true,
-	origin: "https//ordify-eta.vercel.app",
+	origin: "https://ordify-eta.vercel.app",
 };
 app.use(cors(corsOptions));
 
