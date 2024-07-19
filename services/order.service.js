@@ -16,10 +16,7 @@ class OrderService {
 	}
 
 	async create(customerId, productId, order) {
-		const product = await productService
-			.getById(productId)
-			.populate("product")
-			.populate("customer");
+		const product = await productService.getById(productId);
 		const updatedQuantity = product.quantity - order.quantity;
 
 		if (order.quantity <= 0) {
