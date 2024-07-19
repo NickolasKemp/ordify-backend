@@ -12,11 +12,17 @@ class AuthController {
 
 			const { email, password } = req.body;
 			const userData = await authService.register(email, password);
-			res.cookie("refreshToken", userData.refreshToken, {
-				maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-				httpOnly: true,
-			});
 			return res.json(userData);
+		} catch (e) {
+			next(e);
+		}
+	}
+
+	async activate(req, res, next) {
+		try {
+			const activationLink = req.params.link;
+			await authService.activate(activationLink);
+			return res.redirect(process.env.FRONTEND_URL);
 		} catch (e) {
 			next(e);
 		}

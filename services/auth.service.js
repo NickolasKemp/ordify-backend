@@ -2,6 +2,8 @@ const ApiException = require("../exceptions/api.exception");
 const UserModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const tokenService = require("./token.service");
+const uuid = require("uuid");
+const mailService = require("./mail.service");
 
 class AuthService {
 	async register(email, password) {
@@ -12,15 +14,35 @@ class AuthService {
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 3);
+		const activationLink = uuid.v4();
+
 		const user = await UserModel.create({
 			password: hashedPassword,
 			email,
+			activationLink,
 		});
 
-		const tokens = tokenService.generateTokens(user.id);
-		await tokenService.saveRefreshToken(user.id, tokens.refreshToken);
+		await mailService.sendActivationMail(
+			`${process.env.BACKEND_URL}/auth/activate/${activationLink}`,
+			email,
+		);
 
-		return { ...tokens, user };
+		return user;
+	}
+
+	async activate(activationLink) {
+		const user = await UserModel.findOneAndUpdate(
+			{ activationLink },
+			{
+				isActivated: true,
+			},
+		);
+
+		if (!user) {
+			throw ApiError.BadRequest("User is not found by activation link");
+		}
+
+		return;
 	}
 
 	async login(email, password) {
@@ -28,6 +50,10 @@ class AuthService {
 
 		if (!user) {
 			throw ApiException.BadRequest("This email is not registered");
+		}
+
+		if (!user.isActivated) {
+			throw ApiException.BadRequest("This account is not activated");
 		}
 
 		const isValidPass = await bcrypt.compare(password, user.password);
@@ -44,9 +70,9 @@ class AuthService {
 
 	async refresh(refreshToken) {
 		const tokenData = tokenService.validateRefreshToken(refreshToken);
-		// const tokenFromDb = await tokenService.findRefreshToken(refreshToken);
+		const tokenFromDb = await tokenService.findRefreshToken(refreshToken);
 
-		if (!tokenData) {
+		if (!tokenData || !tokenFromDb) {
 			throw ApiException.Unauthorized();
 		}
 
