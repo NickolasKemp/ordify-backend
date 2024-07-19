@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "nodemon api",
-		"build": "node api"
+		"start": "node api"
 	},
 	"author": "Nick Tubolyev",
 	"license": "ISC",
