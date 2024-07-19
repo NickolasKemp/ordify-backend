@@ -11,6 +11,12 @@ class CustomerService {
 	}
 
 	async create(customer) {
+		const sameCustomer = await customerModel.findOne({ name: customer.name });
+
+		if (sameCustomer) {
+			return await this.update(sameCustomer._id, customer);
+		}
+
 		return await customerModel.create(customer);
 	}
 
