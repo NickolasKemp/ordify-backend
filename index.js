@@ -47,7 +47,7 @@ app.use(
 	"/",
 	router,
 	swaggerUi.serve,
-	swaggerUi.setup(specs, { customCss: CSS_URL }),
+	swaggerUi.setup(specs, { customCssUrl: CSS_URL }),
 );
 app.use(errorMiddleware);
 
