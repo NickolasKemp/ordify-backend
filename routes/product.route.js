@@ -160,6 +160,112 @@ router.put("/:id", authMiddleware, productController.update);
  *   name: Product
  *   description: The product managing API
  * /products/{id}:
+ *   put:
+ *     summary: Add delivery option to a product
+ *     tags: [Product]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product
+ *             example:
+ *               name: Example Product
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     responses:
+ *       200:
+ *         description: The updated product.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
+ *
+ */
+router.patch(
+	"/:id/delivery-options",
+	authMiddleware,
+	productController.addDeliveryOption,
+);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Product
+ *   description: The product managing API
+ * /products/{id}:
+ *   put:
+ *     summary: Delete delivery option from a product
+ *     tags: [Product]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the product
+ *             example:
+ *               name: Example Product
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     responses:
+ *       200:
+ *         description: The updated product.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
+ *
+ */
+router.patch(
+	"/:productId/delivery-options/:deliveryOptionId",
+	authMiddleware,
+	productController.deleteDeliveryOption,
+);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Product
+ *   description: The product managing API
+ * /products/{id}:
  *   delete:
  *     summary: Delete a product
  *     tags: [Product]

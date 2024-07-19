@@ -1,19 +1,31 @@
 const { Schema, model } = require("mongoose");
+const Order = require("./order.model");
 
-const ProductSchema = new Schema({
-	created_at: { type: Date, required: true, default: Date.now },
-	name: { type: String, unique: true, required: true },
-	description: { type: String },
-	price: { type: Number, required: true },
-	images: { type: [String] },
-	deliveryWay: {
+const DeliveryOptionSchema = new Schema({
+	type: {
 		type: String,
 		enum: ["COURIER", "POSTAL", "PICKUP"],
-		default: "PICKUP",
+		required: true,
+		default: "POSTAL",
 	},
-	deliveryPrice: { type: Number },
-	deliveryPeriod: { type: String },
+	price: { type: Number, required: true, default: 0 },
+	period: { type: String, required: true, default: "Immediate" },
+});
+
+const ProductSchema = new Schema({
+	createdAt: { type: Date, required: true, default: Date.now },
+	name: { type: String },
+	description: { type: String },
+	price: { type: Number, required: true },
+	image: { type: String },
+	deliveryOptions: [DeliveryOptionSchema],
 	quantity: { type: Number },
+});
+
+ProductSchema.pre("findOneAndDelete", async function (next) {
+	const productId = this.getQuery()["_id"];
+	await Order.deleteMany({ product: productId });
+	next();
 });
 
 module.exports = model("Product", ProductSchema);

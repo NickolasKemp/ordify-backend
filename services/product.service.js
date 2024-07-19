@@ -2,7 +2,26 @@ const productModel = require("../models/product.model");
 
 class ProductService {
 	async getAll() {
-		return await productModel.find();
+		return await productModel.aggregate([
+			{
+				$addFields: {
+					sortField: {
+						$cond: { if: { $eq: ["$quantity", 0] }, then: 1, else: 0 },
+					},
+				},
+			},
+			{
+				$sort: {
+					sortField: 1,
+					createdAt: -1,
+				},
+			},
+			{
+				$project: {
+					sortField: 0,
+				},
+			},
+		]);
 	}
 
 	async getById(id) {
@@ -30,8 +49,24 @@ class ProductService {
 		);
 	}
 
+	async addDeliveryOption(productId, deliveryOption) {
+		return await productModel.findByIdAndUpdate(
+			productId,
+			{ $push: { deliveryOptions: deliveryOption } },
+			{ new: true },
+		);
+	}
+
+	async deleteDeliveryOption(productId, deliveryOptionId) {
+		return await productModel.findByIdAndUpdate(
+			productId,
+			{ $pull: { deliveryOptions: { type: deliveryOptionId } } },
+			{ new: true },
+		);
+	}
+
 	async remove(productId) {
-		return await productModel.findByIdAndDelete(productId);
+		return await productModel.findOneAndDelete({ _id: productId });
 	}
 }
 
