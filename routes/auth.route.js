@@ -43,6 +43,29 @@ router.post(
  * tags:
  *   - name: Auth
  *     description: Authentication API
+ * /auth/activate:
+ *   get:
+ *     summary: Activate the user
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: User was activated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Token'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/activate/:link", authController.activate);
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Auth
+ *     description: Authentication API
  * /auth/login:
  *   post:
  *     summary: Login a user
