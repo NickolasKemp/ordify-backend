@@ -204,6 +204,102 @@ module.exports = router;
  * @swagger
  * components:
  *   schemas:
+ *     DeliveryOption:
+ *       type: object
+ *       required:
+ *         - type
+ *         - price
+ *         - period
+ *       properties:
+ *         type:
+ *           type: string
+ *           description: The type of delivery
+ *           enum:
+ *             - COURIER
+ *             - POSTAL
+ *             - PICKUP
+ *           default: POSTAL
+ *         price:
+ *           type: number
+ *           format: double
+ *           description: The price of delivery
+ *         period:
+ *           type: string
+ *           description: The delivery period
+ *           default: Immediate
+ *     Product:
+ *       type: object
+ *       required:
+ *         - createdAt
+ *         - price
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the product
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date the product was created
+ *         name:
+ *           type: string
+ *           description: The name of the product
+ *         description:
+ *           type: string
+ *           description: The description of the product
+ *         price:
+ *           type: number
+ *           format: double
+ *           description: The price of the product
+ *         image:
+ *           type: string
+ *           description: URL of the product image
+ *         deliveryOptions:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/DeliveryOption'
+ *           description: Array of delivery options for the product
+ *         quantity:
+ *           type: number
+ *           description: The quantity of the product available
+ *       example:
+ *         id: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *         createdAt: 2023-07-02T10:30:00.000Z
+ *         name: Example Product
+ *         description: This is an example product.
+ *         price: 19.99
+ *         image: "https://example.com/image1.jpg"
+ *         deliveryOptions:
+ *           - type: COURIER
+ *             price: 5.00
+ *             period: 3-5 business days
+ *           - type: POSTAL
+ *             price: 3.00
+ *             period: 5-7 business days
+ *         quantity: 10
+ *     Customer:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the customer
+ *         email:
+ *           type: string
+ *           description: The email of the customer
+ *         password:
+ *           type: string
+ *           description: The password of the customer
+ *         isActivated:
+ *           type: boolean
+ *           description: Activation status of the customer
+ *         activationLink:
+ *           type: string
+ *           description: Activation link of the customer
+ *       example:
+ *         id: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *         email: customer@example.com
+ *         password: password1234
+ *         isActivated: true
+ *         activationLink: 5f1d7f3b0b1e8a1b2c3d4e5f
  *     Order:
  *       type: object
  *       required:
@@ -218,7 +314,7 @@ module.exports = router;
  *           description: The date the order was created
  *         quantity:
  *           type: number
- *           description: The quantity of the order in the order
+ *           description: The quantity of the order
  *         deliveryWay:
  *           type: string
  *           description: The way the product is delivered
@@ -229,21 +325,38 @@ module.exports = router;
  *         price:
  *           type: number
  *           format: double
- *           description: The price of the order in the order
- *         order:
- *           type: string
- *           description: The ID of the order in the order
- *           example: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *           description: The price of the order
+ *         product:
+ *           $ref: '#/components/schemas/Product'
+ *           description: The product in the order
  *         customer:
- *           type: string
- *           description: The ID of the customer who placed the order
- *           example: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *           $ref: '#/components/schemas/Customer'
+ *           description: The customer who placed the order
  *       example:
  *         id: 5f1d7f3b0b1e8a1b2c3d4e5f
  *         created_at: 2023-07-02T10:30:00.000Z
  *         quantity: 2
- *         price: 19.99
- *         order: 5f1d7f3b0b1e8a1b2c3d4e5f
- *         customer: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *         price: 39.98
+ *         product:
+ *           id: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *           createdAt: 2023-07-02T10:30:00.000Z
+ *           name: Example Product
+ *           description: This is an example product.
+ *           price: 19.99
+ *           image: "https://example.com/image1.jpg"
+ *           deliveryOptions:
+ *             - type: COURIER
+ *               price: 5.00
+ *               period: 3-5 business days
+ *             - type: POSTAL
+ *               price: 3.00
+ *               period: 5-7 business days
+ *           quantity: 10
+ *         customer:
+ *           id: 5f1d7f3b0b1e8a1b2c3d4e5f
+ *           email: customer@example.com
+ *           password: password1234
+ *           isActivated: true
+ *           activationLink: 5f1d7f3b0b1e8a1b2c3d4e5f
  *         deliveryWay: POSTAL
  */

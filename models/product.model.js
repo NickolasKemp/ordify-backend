@@ -9,7 +9,7 @@ const DeliveryOptionSchema = new Schema({
 		default: "POSTAL",
 	},
 	price: { type: Number, required: true, default: 0 },
-	period: { type: String, required: true, default: "Immediate" },
+	period: { type: String, default: "immediate", required: true },
 });
 
 const ProductSchema = new Schema({

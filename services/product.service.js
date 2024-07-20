@@ -1,3 +1,4 @@
+const ApiException = require("../exceptions/api.exception");
 const productModel = require("../models/product.model");
 
 class ProductService {
@@ -30,10 +31,30 @@ class ProductService {
 	}
 
 	async create(product) {
+		const same = await productModel.findOne({ name: product.name });
+
+		if (!product.name && same) {
+			throw ApiException.BadRequest(
+				"There is already an empty product. Fill it or delete to create a new one",
+			);
+		}
+
+		if (same) {
+			throw ApiException.BadRequest("Product with this name already exist");
+		}
+
 		return await productModel.create(product);
 	}
 
 	async update(productId, updatedProductFields) {
+		const same = await productModel.findOne({
+			name: updatedProductFields.name,
+		});
+
+		if (same) {
+			throw ApiException.BadRequest("Product with this name already exist");
+		}
+
 		return await productModel.findByIdAndUpdate(
 			productId,
 			updatedProductFields,

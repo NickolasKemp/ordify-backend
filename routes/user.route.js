@@ -27,7 +27,15 @@ module.exports = router;
  *           type: string
  *           description: User password
  *           format: password
+ *         isActivated:
+ *           type: boolean
+ *           description: Whether the user is activated
+ *         activationLink:
+ *           type: string
+ *           description: Activation link for the user
  *       example:
  *         email: user@example.com
  *         password: password1234
+ *         isActivated: false
+ *         activationLink: "34337f07-c2b0-49fc-ad06-a799ce9e1aa9"
  */

@@ -159,8 +159,8 @@ router.put("/:id", authMiddleware, productController.update);
  * tags:
  *   name: Product
  *   description: The product managing API
- * /products/{id}:
- *   put:
+ * /products/{id}/delivery-options:
+ *   patch:
  *     summary: Add delivery option to a product
  *     tags: [Product]
  *     security:
@@ -170,13 +170,7 @@ router.put("/:id", authMiddleware, productController.update);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: The name of the product
- *             example:
- *               name: Example Product
+ *               $ref: '#/components/schemas/DeliveryOption'
  *     parameters:
  *       - in: path
  *         name: id
@@ -212,31 +206,26 @@ router.patch(
  * tags:
  *   name: Product
  *   description: The product managing API
- * /products/{id}:
- *   put:
+ * product/:productId/delivery-options/:deliveryOptionId:
+ *   patch:
  *     summary: Delete delivery option from a product
  *     tags: [Product]
  *     security:
  *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: The name of the product
- *             example:
- *               name: Example Product
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: productId
  *         required: true
  *         schema:
  *           type: string
  *         description: The product ID
+ *       - in: path
+ *         name: DeliveryOptionId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The deliveryOption type
+ *         example: POSTAL
  *     responses:
  *       200:
  *         description: The updated product.
@@ -301,19 +290,41 @@ module.exports = router;
  * @swagger
  * components:
  *   schemas:
+ *     DeliveryOption:
+ *       type: object
+ *       required:
+ *         - type
+ *         - price
+ *         - period
+ *       properties:
+ *         type:
+ *           type: string
+ *           description: The type of delivery
+ *           enum:
+ *             - COURIER
+ *             - POSTAL
+ *             - PICKUP
+ *           default: POSTAL
+ *         price:
+ *           type: number
+ *           format: double
+ *           description: The price of delivery
+ *         period:
+ *           type: string
+ *           description: The delivery period
+ *           default: Immediate
  *     Product:
  *       type: object
  *       required:
- *         - created_at
- *         - name
+ *         - createdAt
  *         - price
  *       properties:
  *         id:
  *           type: string
  *           description: The auto-generated id of the product
- *         created_at:
+ *         createdAt:
  *           type: string
- *           format: date
+ *           format: date-time
  *           description: The date the product was created
  *         name:
  *           type: string
@@ -325,34 +336,30 @@ module.exports = router;
  *           type: number
  *           format: double
  *           description: The price of the product
- *         images:
+ *         image:
+ *           type: string
+ *           description: URL of the product image
+ *         deliveryOptions:
  *           type: array
  *           items:
- *             type: string
- *           description: Array of image URLs for the product
- *         deliveryWay:
- *           type: string
- *           description: The way the product is delivered
- *           enum:
- *             - COURIER
- *             - POSTAL
- *             - PICKUP
- *           default: PICKUP
- *         deliveryPrice:
+ *             $ref: '#/components/schemas/DeliveryOption'
+ *           description: Array of delivery options for the product
+ *         quantity:
  *           type: number
- *           format: double
- *           description: The price of delivery
- *         deliveryPeriod:
- *           type: string
- *           description: The delivery period
+ *           description: The quantity of the product available
  *       example:
  *         id: 5f1d7f3b0b1e8a1b2c3d4e5f
- *         created_at: 2023-07-02T10:30:00.000Z
+ *         createdAt: 2023-07-02T10:30:00.000Z
  *         name: Example Product
  *         description: This is an example product.
  *         price: 19.99
- *         images: ["https://example.com/image1.jpg", "https://example.com/image2.jpg"]
- *         deliveryWay: COURIER
- *         deliveryPrice: 5.00
- *         deliveryPeriod: 3-5 business days
+ *         image: "https://example.com/image1.jpg"
+ *         deliveryOptions:
+ *           - type: COURIER
+ *             price: 5.00
+ *             period: 3-5 business days
+ *           - type: POSTAL
+ *             price: 3.00
+ *             period: 5-7 business days
+ *         quantity: 10
  */

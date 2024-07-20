@@ -43,17 +43,20 @@ router.post(
  * tags:
  *   - name: Auth
  *     description: Authentication API
- * /auth/activate:
+ * /auth/activate/{activationLink}:
  *   get:
  *     summary: Activate the user
  *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: activationLink
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Activation link
  *     responses:
  *       200:
  *         description: User was activated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Token'
  *       400:
  *         description: Bad request
  *       500:

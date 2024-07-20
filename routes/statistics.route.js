@@ -26,8 +26,6 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Statistics'
  *       500:
  *         description: Internal server error
- *
- *
  */
 router.get("/main", authMiddleware, statisticsController.getMain);
 
@@ -36,23 +34,23 @@ module.exports = router;
 /**
  * @swagger
  * components:
- *   securitySchemes:
- *     BearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  *   schemas:
  *     Statistics:
  *       type: object
  *       properties:
- *         email:
+ *         name:
  *           type: string
- *           description: Statistics email
- *         password:
- *           type: string
- *           description: Statistics password
- *           format: password
- *       example:
- *         email: statistics@example.com
- *         password: password1234
+ *           description: The name of the statistic
+ *           example: Total
+ *         value:
+ *           type: number
+ *           description: The value of the statistic
+ *           example: 5000
+ *         isCurrencyValue:
+ *           type: boolean
+ *           description: Indicates if the value is a currency amount
+ *           example: true
+ *       required:
+ *         - name
+ *         - value
  */

@@ -206,7 +206,16 @@ module.exports = router;
  *         name:
  *           type: string
  *           description: The name of the customer
- *         address:
+ *         street:
+ *           type: string
+ *           description: The address of the customer
+ *         city:
+ *           type: string
+ *           description: The street of the customer
+ *         state:
+ *           type: string
+ *           description: The street of the customer
+ *         zip:
  *           type: string
  *           description: The address of the customer
  *         phone:
@@ -217,8 +226,11 @@ module.exports = router;
  *           description: The contact person for the customer
  *       example:
  *         id: 5f1d7f3b0b1e8a1b2c3d4e5f
- *         name: Example Customer
- *         address: 123 Example Street, Example City, EX 12345
+ *         name: LA Public Health
+ *         street: 125, Main Street
+ *         city: Los Angeles
+ *         state: California
+ *         zip: 90016
  *         phone: "+1234567890"
  *         contactPerson: John Doe
  */
