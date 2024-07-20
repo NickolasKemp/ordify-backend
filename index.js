@@ -8,18 +8,20 @@ const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-dotenv.config();
+dotenv.config({
+	path: process.env.NODE_ENV === "production" ? "./env" : "/.env.dev",
+});
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const whitelist = [process.env.FRONTEND_URL, "https://ordify-eta.vercel.app"];
 const corsOptions = {
 	credentials: true,
 	origin: function (origin, callback) {
 		if (!origin) return callback(null, true);
-		if (whitelist.indexOf(origin) !== -1) {
+		console.log(process.env.FRONTEND_URL);
+		if (origin === process.env.FRONTEND_URL) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
