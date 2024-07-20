@@ -8,9 +8,7 @@ const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-dotenv.config({
-	path: process.env.NODE_ENV === "production" ? "./env" : "/.env.dev",
-});
+dotenv.config();
 
 const app = express();
 app.use(express.json());

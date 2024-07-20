@@ -3,7 +3,7 @@ const Product = require("../models/product.model");
 const Customer = require("../models/customer.model");
 const Order = require("../models/order.model");
 const dotenv = require("dotenv");
-dotenv.config({ path: "../.env.dev" });
+dotenv.config({ path: "../.env" });
 
 const sampleProducts = [
 	{
