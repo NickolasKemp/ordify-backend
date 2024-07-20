@@ -35,6 +35,7 @@ class AuthController {
 			res.cookie("refreshToken", userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 				httpOnly: true,
+				sameSite: "None",
 			});
 			return res.json(userData);
 		} catch (e) {
@@ -49,6 +50,7 @@ class AuthController {
 			res.cookie("refreshToken", userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 				httpOnly: true,
+				sameSite: "None",
 			});
 			return res.json(userData);
 		} catch (e) {
