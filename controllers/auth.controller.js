@@ -35,6 +35,7 @@ class AuthController {
 			res.cookie("refreshToken", userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 				httpOnly: true,
+				secure: true,
 				sameSite: "None",
 			});
 			return res.json(userData);
@@ -50,6 +51,7 @@ class AuthController {
 			res.cookie("refreshToken", userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 				httpOnly: true,
+				secure: true,
 				sameSite: "None",
 			});
 			return res.json(userData);
