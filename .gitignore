@@ -4,3 +4,4 @@ db_data
 
 #temporary
 docker-compose.yml 
+.vercel
