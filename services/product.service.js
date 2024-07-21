@@ -2,8 +2,28 @@ const ApiException = require("../exceptions/api.exception");
 const productModel = require("../models/product.model");
 
 class ProductService {
-	async getAll() {
-		return await productModel.aggregate([
+	async getAll(searchTerm, page = 0, pageSize = 10) {
+		page = parseInt(page);
+		pageSize = parseInt(pageSize);
+
+		let startIndex = (page - 1) * pageSize + pageSize;
+		if (page === 0) startIndex = 0;
+		if (page === 1) startIndex = pageSize;
+
+		const pipeline = [];
+
+		if (!(searchTerm === "undefined") && searchTerm) {
+			pipeline.push({
+				$match: {
+					$or: [
+						{ name: { $regex: searchTerm, $options: "i" } },
+						{ description: { $regex: searchTerm, $options: "i" } },
+					],
+				},
+			});
+		}
+
+		const baseSort = [
 			{
 				$addFields: {
 					sortField: {
@@ -22,7 +42,20 @@ class ProductService {
 					sortField: 0,
 				},
 			},
-		]);
+		];
+		pipeline.push(...baseSort);
+
+		const searchedProducts = await productModel.aggregate(pipeline);
+		const totalPages = Math.ceil(searchedProducts.length / pageSize);
+
+		if (page !== undefined && pageSize !== undefined) {
+			const pagination = [{ $skip: startIndex }, { $limit: pageSize }];
+			pipeline.push(...pagination);
+		}
+
+		const products = await productModel.aggregate(pipeline);
+
+		return { products, totalPages, totalProducts: searchedProducts.length };
 	}
 
 	async getById(id) {

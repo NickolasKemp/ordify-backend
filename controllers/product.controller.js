@@ -5,7 +5,8 @@ const { validationResult } = require("express-validator");
 class ProductController {
 	async getAll(req, res, next) {
 		try {
-			const products = await productService.getAll();
+			const { searchTerm, page, pageSize } = req.query;
+			const products = await productService.getAll(searchTerm, page, pageSize);
 			return res.json(products);
 		} catch (e) {
 			next(e);
