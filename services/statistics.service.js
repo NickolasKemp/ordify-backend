@@ -5,8 +5,9 @@ const customerService = require("./customer.service");
 class StatisticsService {
 	async getMain() {
 		const orders = await orderService.getAll();
-		const products = await productService.getAll();
 		const customers = await customerService.getAll();
+		const productsRes = await productService.getAll();
+
 		let totalOrdersPrice = 0;
 
 		orders.forEach(order => {
@@ -16,7 +17,7 @@ class StatisticsService {
 		return [
 			{
 				name: "Products",
-				value: products.length,
+				value: productsRes.totalProducts,
 			},
 			{
 				name: "Customers",
