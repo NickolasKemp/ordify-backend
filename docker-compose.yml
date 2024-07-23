@@ -1,0 +1,29 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: ordify_db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+  ordify-backend:
+    build: .
+    container_name: ordify-backend
+    ports:
+      - 3005:3005
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3005
+      DB_URL: mongodb://user:pass@mongo:27017/
+      JWT_REFRESH_SECRET: ordify-refresh-secret
+      JWT_ACCESS_SECRET: ordify-access-secret
+      BACKEND_URL: http://localhost:3005
+      FRONTEND_URL: http://localhost:4200
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: kemplent.auth@gmail.com
+      SMTP_PASS: cebxzyutgsxgnqiz
+      ADMIN_EMAIL: ordify.auth@gmail.com
