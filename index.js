@@ -38,11 +38,11 @@ const options = {
 		},
 		servers: [
 			{
-				url: "https://ordify-backend.vercel.app/",
+				url: "https://ordify-backend.onrender.com/",
 				description: "Production server",
 			},
 			{
-				url: process.env.BACKEND_URL,
+				url: "http://localhost:3005",
 				description: "Development server",
 			},
 		],
@@ -51,8 +51,6 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
-const CSS_URL =
-	"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.2/swagger-ui.min.css";
 
 app.use(
 	"/",
@@ -60,11 +58,6 @@ app.use(
 	swaggerUi.serve,
 	swaggerUi.setup(specs, {
 		customSiteTitle: "Ordify API Docs",
-		customfavIcon:
-			"https://pbs.twimg.com/profile_images/1451297216187011072/xLd1JSZk_400x400.png",
-		customCss:
-			".swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }",
-		customCssUrl: CSS_URL,
 	}),
 );
 app.use(errorMiddleware);
