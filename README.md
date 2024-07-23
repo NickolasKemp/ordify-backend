@@ -18,12 +18,12 @@ Install dependencies
   pnpm install
 ```
 
-Create and configure .env file 
+Up mongo database, then create and configure .env file 
 
 ```bash
 PORT=3005
 FRONTEND_URL=http://localhost:4200
-DB_URL=...
+DB_URL=... # add database url
 JWT_REFRESH_SECRET=ordify-refresh-secret
 JWT_ACCESS_SECRET=ordify-access-secret
 BACKEND_URL=http://localhost:3005
