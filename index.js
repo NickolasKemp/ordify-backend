@@ -62,14 +62,7 @@ app.use(
 		customSiteTitle: "Ordify API Docs",
 		customfavIcon:
 			"https://pbs.twimg.com/profile_images/1451297216187011072/xLd1JSZk_400x400.png",
-		customJs: [
-			"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js",
-		],
-		customCssUrl: [
-			"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css",
-			"https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css",
-		],
+		customCssUrl: CSS_URL,
 	}),
 );
 app.use(errorMiddleware);
