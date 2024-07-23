@@ -1,3 +1,7 @@
+## Ordify
+  To register a new user in the application, you need to activate it after registration following the link the will be send to email `ordify.auth@gmail.com`. Account password is `12345`
+ 
+
 ## Run With Docker
 
 ```bash
