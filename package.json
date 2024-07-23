@@ -6,7 +6,9 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "nodemon index.js",
-		"start": "node index.js"
+		"start": "node index.js",
+		"seed": "node seed/seeder.js",
+		"start:seed": "npm run seed && node index.js"
 	},
 	"author": "Nick Tubolyev",
 	"license": "ISC",
