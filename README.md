@@ -35,8 +35,8 @@ ADMIN_EMAIL=ordify.auth@gmail.com
 
 ```
 
-Start the backend server
+Seed the database and start the backend server
 
 ```bash
-  npm run start:dev
+  npm run start:seed
 ```
