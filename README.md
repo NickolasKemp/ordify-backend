@@ -1,3 +1,7 @@
+## Ordify-backend
+  Spinning up a service on Render takes up to a minute, so just wait a bit.  
+
+
 ## Run With Docker
 
 ```bash
