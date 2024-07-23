@@ -12,7 +12,7 @@ Clone the project
   git clone https://github.com/NickolasKemp/ordify-backend.git
 ```
 
-Install dependencies (in case you don't have pnpm, intall it globally `npm install pnpm -g` or use npm instead)
+Install dependencies (in case you don't have pnpm, install it globally `npm install -g pnpm` or use npm instead)
 
 ```bash
   pnpm install
