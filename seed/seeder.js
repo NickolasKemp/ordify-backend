@@ -3,7 +3,7 @@ const Product = require("../models/product.model");
 const Customer = require("../models/customer.model");
 const Order = require("../models/order.model");
 const dotenv = require("dotenv");
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 const sampleProducts = [
 	{
@@ -80,13 +80,14 @@ const sampleProducts = [
 
 const seedDB = async () => {
 	try {
+		console.log("db url", process.env.DB_URL);
 		await mongoose.connect(process.env.DB_URL, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
 
 		await Product.deleteMany({});
-		// await Customer.deleteMany({});
+		await Customer.deleteMany({});
 		await Order.deleteMany({});
 
 		await Product.insertMany(sampleProducts);
