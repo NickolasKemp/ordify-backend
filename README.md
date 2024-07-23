@@ -1,5 +1,5 @@
 ## Ordify
-  To register a new user in the application, you need to activate it after registration following the link the will be send to email `ordify.auth@gmail.com`. Account password is `12345`. Or just login with existing user credentials. Email: `test@gmail.com`, password: `12345`
+  To register a new user in the application, you need to activate it's account after registration by following the link sent to email address `ordify.auth@gmail.com`. Account password is `12345`. Or, just log in using the existing user credentials. Email: `test@gmail.com`, password: `12345`
  
 
 ## Run With Docker
