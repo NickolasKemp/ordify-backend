@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const UserSchema = new Schema({
+const OrderSchema = new Schema({
 	created_at: { type: Date, required: true, default: Date.now },
 
 	quantity: { type: Number },
@@ -11,6 +11,14 @@ const UserSchema = new Schema({
 		type: String,
 		enum: ["COURIER", "POSTAL", "PICKUP"],
 	},
+	// Payment fields (Stripe integration)
+	paymentStatus: {
+		type: String,
+		enum: ["pending", "paid", "failed"],
+		default: "pending",
+	},
+	paymentIntentId: { type: String },
+	paidAt: { type: Date },
 });
 
-module.exports = model("Order", UserSchema);
+module.exports = model("Order", OrderSchema);
