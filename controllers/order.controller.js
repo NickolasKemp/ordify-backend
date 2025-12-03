@@ -48,6 +48,65 @@ class OrderController {
 		}
 	}
 
+	/**
+	 * Create first order with agreement
+	 * Returns client token for future orders
+	 */
+	async createWithAgreement(req, res, next) {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				throw ApiException.BadRequest("Validation error", errors.array());
+			}
+
+			const { customerId, productId } = req.params;
+			const { order, agreementData } = req.body;
+
+			const result = await orderService.createWithAgreement(
+				customerId,
+				productId,
+				order,
+				agreementData,
+			);
+
+			return res.status(201).json(result);
+		} catch (e) {
+			next(e);
+		}
+	}
+
+	/**
+	 * Create order using client token (for returning customers)
+	 */
+	async createWithToken(req, res, next) {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				throw ApiException.BadRequest("Validation error", errors.array());
+			}
+
+			const { productId } = req.params;
+			const clientToken = req.headers["x-client-token"] || req.body.clientToken;
+
+			if (!clientToken) {
+				throw ApiException.BadRequest("Client token is required");
+			}
+
+			const order = req.body;
+			delete order.clientToken; // Remove token from order data
+
+			const createdOrder = await orderService.createWithToken(
+				clientToken,
+				productId,
+				order,
+			);
+
+			return res.status(201).json(createdOrder);
+		} catch (e) {
+			next(e);
+		}
+	}
+
 	async update(req, res, next) {
 		try {
 			const updatedOrderFields = req.body;

@@ -7,6 +7,7 @@ const OrderSchema = new Schema({
 	price: { type: Number },
 	product: { type: Schema.ObjectId, ref: "Product", required: true },
 	customer: { type: Schema.ObjectId, ref: "Customer", required: true },
+	agreement: { type: Schema.ObjectId, ref: "Agreement" },
 	deliveryWay: {
 		type: String,
 		enum: ["COURIER", "POSTAL", "PICKUP"],

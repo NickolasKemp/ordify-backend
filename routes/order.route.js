@@ -116,6 +116,123 @@ router.post(
 
 /**
  * @swagger
+ * /orders/agreement/{customerId}/{productId}:
+ *   post:
+ *     summary: Create first order with agreement (returns client token for future orders)
+ *     tags: [Order]
+ *     parameters:
+ *       - in: path
+ *         name: customerId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The customer ID
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               order:
+ *                 type: object
+ *                 properties:
+ *                   quantity:
+ *                     type: integer
+ *                   price:
+ *                     type: number
+ *                   deliveryWay:
+ *                     type: string
+ *                     enum: [COURIER, POSTAL, PICKUP]
+ *               agreementData:
+ *                 type: object
+ *                 properties:
+ *                   ends_at:
+ *                     type: string
+ *                     format: date-time
+ *                   legalEntity:
+ *                     type: string
+ *     responses:
+ *       201:
+ *         description: Order created with agreement and client token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 order:
+ *                   $ref: '#/components/schemas/Order'
+ *                 clientToken:
+ *                   type: string
+ *                   description: Token for future orders under this agreement
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad request (customer already has agreement)
+ */
+router.post(
+	"/agreement/:customerId/:productId",
+	orderController.createWithAgreement,
+);
+
+/**
+ * @swagger
+ * /orders/token/{productId}:
+ *   post:
+ *     summary: Create order using client token (for returning customers)
+ *     tags: [Order]
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *       - in: header
+ *         name: x-client-token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Client token from first order agreement
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               quantity:
+ *                 type: integer
+ *               price:
+ *                 type: number
+ *               deliveryWay:
+ *                 type: string
+ *                 enum: [COURIER, POSTAL, PICKUP]
+ *     responses:
+ *       201:
+ *         description: Order created under existing agreement
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Order'
+ *       400:
+ *         description: Invalid or expired client token
+ */
+router.post(
+	"/token/:productId",
+	body("quantity").isInt(),
+	body("price").isInt(),
+	orderController.createWithToken,
+);
+
+/**
+ * @swagger
  * tags:
  *   name: Order
  *   description: The order managing API
