@@ -39,9 +39,17 @@ class OrderService {
 	}
 
 	async update(orderId, updatedOrderFields) {
-		return await orderModel.findByIdAndUpdate(orderId, updatedOrderFields, {
-			new: true,
-		});
+		// If status is being updated to "completed", set completedAt timestamp
+		if (updatedOrderFields.status === "completed") {
+			updatedOrderFields.completedAt = new Date();
+		}
+
+		return await orderModel
+			.findByIdAndUpdate(orderId, updatedOrderFields, {
+				new: true,
+			})
+			.populate("product")
+			.populate("customer");
 	}
 
 	async remove(orderId) {

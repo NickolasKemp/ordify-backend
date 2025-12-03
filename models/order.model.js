@@ -19,6 +19,13 @@ const OrderSchema = new Schema({
 	},
 	paymentIntentId: { type: String },
 	paidAt: { type: Date },
+	// Order status
+	status: {
+		type: String,
+		enum: ["pending", "processing", "completed", "cancelled"],
+		default: "pending",
+	},
+	completedAt: { type: Date },
 });
 
 module.exports = model("Order", OrderSchema);
