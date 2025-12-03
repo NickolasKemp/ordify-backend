@@ -14,6 +14,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// const delayMiddleware = (req, res, next) => {
+// 	const delay = 1000;
+// 	setTimeout(() => {
+// 		next();
+// 	}, delay);
+// };
+// app.use(delayMiddleware);
+
 const corsOptions = {
 	credentials: true,
 	origin: function (origin, callback) {
