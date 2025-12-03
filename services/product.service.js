@@ -2,7 +2,7 @@ const ApiException = require("../exceptions/api.exception");
 const productModel = require("../models/product.model");
 
 class ProductService {
-	async getAll(searchTerm, page = 0, pageSize = 10) {
+	async getAll(searchTerm, page = 0, pageSize = 10, minPrice, maxPrice) {
 		page = parseInt(page);
 		pageSize = parseInt(pageSize);
 
@@ -21,6 +21,24 @@ class ProductService {
 					],
 				},
 			});
+		}
+
+		// Price range filter
+		if (minPrice !== undefined || maxPrice !== undefined) {
+			const priceMatch = {};
+			if (minPrice !== undefined && minPrice !== "undefined") {
+				priceMatch.$gte = parseFloat(minPrice);
+			}
+			if (maxPrice !== undefined && maxPrice !== "undefined") {
+				priceMatch.$lte = parseFloat(maxPrice);
+			}
+			if (Object.keys(priceMatch).length > 0) {
+				pipeline.push({
+					$match: {
+						price: priceMatch,
+					},
+				});
+			}
 		}
 
 		const baseSort = [

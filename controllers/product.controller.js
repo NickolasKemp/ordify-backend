@@ -5,8 +5,14 @@ const { validationResult } = require("express-validator");
 class ProductController {
 	async getAll(req, res, next) {
 		try {
-			const { searchTerm, page, pageSize } = req.query;
-			const products = await productService.getAll(searchTerm, page, pageSize);
+			const { searchTerm, page, pageSize, minPrice, maxPrice } = req.query;
+			const products = await productService.getAll(
+				searchTerm,
+				page,
+				pageSize,
+				minPrice,
+				maxPrice,
+			);
 			return res.json(products);
 		} catch (e) {
 			next(e);
